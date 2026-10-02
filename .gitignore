@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Built extension packages (publish them as GitHub Releases instead)
+*.zip
+
+# Editors / tools
+.vscode/
+.idea/
+.obsidian/
+*.swp
+*~

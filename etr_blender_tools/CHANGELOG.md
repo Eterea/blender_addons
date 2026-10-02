@@ -1,0 +1,54 @@
+# Changelog
+
+All notable changes to **Eterea Blender Tools**. The newest version is at the top.
+
+- **1.6.1** — The sections of the kit Preferences start closed, so all of them are visible at a glance.
+- **1.6.0** — New features:
+  - **Subdivision** panel in the Eterea Tools Sidebar tab, with three collapsible sub-panels (*Levels*, *UV Smooth*, *Remove*) replacing the three separate panels.
+  - *Reset Active Modifier to Defaults* is also available from the right-click menu of any modifier parameter (Properties › Modifiers), and resets the modifier that was clicked.
+  - *Set Curve Radius to 1.0*: any radius can be set from the `F9` panel.
+  - *Batch Operate Attributes*: searchable list of the attributes found on the selection (with domain, type and count); now also works on Curves and Point Cloud objects.
+  - *Transform and Deltas*: rotation buttons also work with Quaternion rotation, in both directions.
+  - *Round Values*: thresholds editable in the Preferences (new *Round Values* section, with *Reset Values*).
+- **1.5.3** — Code clean-up (no change in what the tools do or where they are):
+  - Python class names follow Blender's naming convention; operator and panel identifiers are unchanged, so shortcuts, Quick Favorites and panel states keep working.
+  - Every tool registers its classes the same way; dead code removed; near-identical operators share their code.
+  - *Round Values*: clearer message (counts of rounded channels, without a misleading unit name).
+  - Manifest: tagline without a hard-coded number of tools, more accurate tags, and a `[build]` section that keeps `__pycache__` and hidden files out of the `.zip`.
+  - Version history moved from the README to this file.
+- **1.5.2** — Robustness and clearer messages (no change in where the tools are):
+  - Buttons are disabled when they cannot work (nothing selected, wrong mode, no active modifier...), and commands that found nothing to do say so instead of reporting a success.
+  - *Weight Ramp by Order*: the *By Distance* / *Invert* options added in 1.5.1 are removed (they did not update from the `F9` panel); the tool now has no `F9` panel.
+  - *Batch Operate Attributes*: messages for "not found", name collisions and built-in attributes; linked duplicates counted once.
+  - *Transform and Deltas*: warns about objects in Quaternion / Axis Angle mode instead of silently doing nothing; full turns are kept (370° no longer becomes 10°).
+  - *Toggle Lock Channels*: rotation commands also lock / unlock W.
+  - *Change Color Space*: clear error with OCIO configurations lacking the color space name.
+  - *Set Curve Radius to 1.0* and *Change Selected SDS Levels* report what they changed.
+  - Errors inside menus or headers are printed to the console once, instead of on every redraw.
+- **1.5.1** — Bug fixes (no change in where the tools are):
+  - *Reset Active Modifier to Defaults*: vector parameters (Mirror axes, Array offsets...) are now reset too; the defaults are those of a newly added modifier (some RNA defaults were wrong, e.g. Data Transfer *Mix Factor* or the Mirror X axis); *Pin to Last* and the panel state are kept. Geometry Nodes inputs are reset again (the method used before no longer worked in Blender 5.2) and so is their *Value / Attribute* mode.
+  - *Join Equalizing Bevels*: no longer rescales a shared mesh twice, no longer leaves the result without a bevel when the active object has no Bevel modifier, and no longer fails with an Amount of 0 or outside Object Mode. It now reports what it did.
+  - *Weight Ramp by Order*: rebuilt on Blender's own selection history (no more `Esc` capture mode); reliable order, works with Right Click Select, Undo support.
+  - *Change Color Space* now works inside node groups.
+  - *Change Selected SDS Levels* and *Change SDS UV Smooth*: Undo support.
+  - *Remove Subdivision Modifiers* reports how many modifiers it removed.
+  - A tool that fails to load no longer prevents the rest of the kit from loading (the full error is printed in the console).
+- **1.5.0** —
+  - New tool **Remove Custom Label from Selected Nodes** (`remove_custom_label.py`), working in the Shader, Geometry Nodes, Compositor and Texture editors. It replaces *Label Image Texture Nodes from Filename*, which has been removed.
+  - The **Eterea Tools** right-click submenu now also exists in every Node Editor. *Change Color Space* (Shader Editor) moved into it.
+  - *Round Values* is also available in the Eterea Tools submenu of the 3D Viewport and the Outliner (it stays in Object › Transform too). *Batch Operate Attributes* is now also in the Outliner submenu.
+  - *Transform and Deltas*: new compact two-column layout (All + Loc / Rot / Scale rows, with ▽ / △ icons). Buttons, code and tooltips unchanged.
+  - README: Weight Ramp by Order added to the tool list, a few tools explained in more detail, and references to the pre-kit stand-alone add-ons removed.
+- **1.4.0** — Custom Color Nodes 2.1.0: numbers removed from the swatches (simpler code, cleaner look); editable color names in the Preferences, shown in the swatch tooltips; new live **Color** picker and **Copy from Active** button; **Disable Custom Colors** shortened to **Disable**; Reset Values also restores the names.
+- **1.3.3** — Custom Color Nodes 2.0.3: the floating palette stays open after picking a color (it closes when the mouse leaves it); in the Preferences, Reset Values sits below Vertical Offset, has the same width as the sliders and also restores the Vertical Offset.
+- **1.3.2** — Custom Color Nodes 2.0.2: the floating palette opens above the mouse pointer (adjustable Vertical Offset in the Preferences, 100 px by default).
+- **1.3.1** — Custom Color Nodes 2.0.1: compact Preferences layout (narrow color bars and sliders, darkened colors shown), smaller anti-aliased numbers on the swatches, palette buttons spread over the full panel width, narrower floating palette.
+- **1.3.0** — Custom Color Nodes 2.0.0: works in every node editor, 10 editable colors plus 10 derived darkened colors, Preferences, numbered two-row palette and floating palette (D). New shared module `preferences.py`.
+- **1.2.0** — Phase 2 (clean-up and reorganization):
+  - All code comments, the manifest and this README translated into English.
+  - Unified header for every tool; each tool's own version increased by 0.0.1.
+  - New **Eterea Tools** right-click submenu (3D Viewport in Object Mode, Outliner, Curve Edit Mode) for Batch Operate Attributes, Toggle Lock Channels and Set Curve Radius to 1.0. The old *Lock / Unlock Channels for Selected* submenu is gone: its 8 commands now sit directly in *Eterea Tools*.
+  - New **Eterea Tools** Sidebar tab (shown as "ET" when collapsed) for the 6 panels that used to live in the native *Tool* tab.
+  - **Distribute** removed from the kit.
+- **1.1.0** — New tool: Asset Import Buttons.
+- **1.0.0** — First release of the kit as a single Extension.

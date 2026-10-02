@@ -1,0 +1,40 @@
+schema_version = "1.0.0"
+
+id = "etr_blender_tools"
+version = "1.6.1"
+name = "Eterea Blender Tools"
+tagline = "Unified kit of Eterea tools for Blender"
+maintainer = "Cristobal Vila <etereaestudios@gmail.com>"
+type = "add-on"
+
+website = "https://www.etereaestudios.com"
+
+tags = [
+    "3D View",
+    "Geometry Nodes",
+    "Mesh",
+    "Node",
+    "Object",
+    "Rigging",
+    "User Interface",
+    "UV",
+]
+
+blender_version_min = "5.2.0"
+
+license = [
+    "SPDX:GPL-3.0-or-later",
+]
+
+copyright = [
+    "2026 Cristobal Vila (etereaestudios.com)",
+]
+
+[build]
+# Files and folders left out of the .zip built with
+# "blender --command extension build".
+paths_exclude_pattern = [
+    "__pycache__/",
+    ".*",
+    "*.zip",
+]
