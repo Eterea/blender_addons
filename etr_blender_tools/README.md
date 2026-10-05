@@ -57,7 +57,7 @@ The kit has its own tab in the 3D Viewport Sidebar (`N`), called **Eterea Tools*
 
 Tools are listed in alphabetical order of their file name.
 
-### Asset Import Buttons
+### <img src="icons/asset_import_buttons.png" width="64" alt=""> Asset Import Buttons
 
 - **File:** `asset_import_buttons.py`
 - **Tool name:** Asset Import Buttons
@@ -70,7 +70,7 @@ Adds four small toggle buttons to the Asset Browser header to see and change the
 - They are hidden in the regular File Browser, and in the *Current File* and *Essentials* libraries (where nothing is imported).
 - The setting is per editor: each Asset Browser keeps its own value.
 
-### Batch Operate Attributes
+### <img src="icons/batch_operate_attributes.png" width="64" alt=""> Batch Operate Attributes
 
 - **File:** `batch_operate_attributes.py`
 - **Tool name:** Batch Operate Attributes
@@ -85,7 +85,7 @@ Clicking the name field opens a **searchable list of the attributes found on the
 
 A message in the status bar reports how many objects were changed, how many were skipped (new name already in use, or a built-in attribute such as `position` that cannot be renamed or deleted), or that the attribute was not found. Objects that share their data (linked duplicates) count once.
 
-### Change Color Space
+### <img src="icons/change_color_space.png" width="64" alt=""> Change Color Space
 
 - **File:** `change_color_space.py`
 - **Tool name:** Change Color Space
@@ -100,7 +100,7 @@ How to use it: select one or several *Image Texture* nodes, right-click in the S
 
 Note: the Color Space belongs to the image itself, so any other node using the same image is affected too. If your OCIO configuration has no color space with that exact name (for example a custom ACES configuration), nothing is changed and an error message tells you so.
 
-### Change Selected SDS Levels
+### <img src="icons/change_selected_sds_levels.png" width="64" alt=""> Change Selected SDS Levels
 
 - **File:** `change_selected_sds_levels.py`
 - **Tool name:** Change Selected SDS Levels
@@ -108,7 +108,7 @@ Note: the Color Space belongs to the image itself, so any other node using the s
 
 Set **Levels Viewport** and **Levels Render** in the panel (0 to 6), then click **Apply New Levels**: every Subdivision Surface modifier on the selected objects gets those values. The two numbers are saved with the scene. A message reports how many modifiers were changed (or that none was found).
 
-### Change SDS UV Smooth
+### <img src="icons/change_selected_sds_uv_smooth.png" width="64" alt=""> Change SDS UV Smooth
 
 - **File:** `change_selected_sds_uv_smooth.py`
 - **Tool name:** Change SDS UV Smooth
@@ -116,7 +116,7 @@ Set **Levels Viewport** and **Levels Render** in the panel (0 to 6), then click 
 
 Two buttons, **Keep Boundaries** and **Keep Corners**, set the *UV Smooth* option of every Subdivision Surface modifier on the selected objects (all the Subdivision Surface modifiers of each object, if it has more than one). It saves you from changing the option object by object when many objects share the same UV layout. A message reports how many modifiers were changed.
 
-### Copy Viewport Color
+### <img src="icons/copy_viewport_color.png" width="64" alt=""> Copy Viewport Color
 
 - **File:** `copy_viewport_color.py`
 - **Tool name:** Copy Viewport Color
@@ -126,7 +126,7 @@ Copies the **Viewport Display › Color** of the active object to all the other 
 
 If a future Blender version renames the *Link/Transfer Data* menu, the command automatically moves to the 3D Viewport right-click menu instead.
 
-### Weight Ramp by Order
+### <img src="icons/create_weight_ramp.png" width="64" alt=""> Weight Ramp by Order
 
 - **File:** `create_weight_ramp.py`
 - **Tool name:** Weight Ramp by Order
@@ -142,7 +142,7 @@ A new Vertex Group named **ETR VertSelOrder 000** (then 001, 002...) is created,
 
 The order comes from Blender's own selection history, which only records vertices picked with a click: vertices selected with Box Select, Select All, Select Linked, etc. are ignored (a message tells you how many). The command can be undone with `Ctrl+Z`.
 
-### Custom Color Nodes
+### <img src="icons/custom_color_nodes.png" width="64" alt=""> Custom Color Nodes
 
 - **File:** `custom_color_nodes.py`
 - **Tool name:** Custom Colors Palette
@@ -164,7 +164,7 @@ Below the swatches:
 
 In the Preferences, **Reset Values** restores the 10 original colors and their names, the default Saturation and Value, and the default Vertical Offset. All values are stored in the Preferences, so they persist between sessions. The shortcut of the floating palette and its **Vertical Offset** (how many pixels above the mouse pointer it opens, so it does not cover the nodes; negative values move it down) can also be changed there.
 
-### Join Equalizing Bevels
+### <img src="icons/join_equalizing_bevels.png" width="64" alt=""> Join Equalizing Bevels
 
 - **File:** `join_equalizing_bevels.py`
 - **Tool name:** Join Equalizing Bevels
@@ -180,7 +180,7 @@ Requirements: Object Mode, at least two meshes selected, and a Bevel modifier on
 
 Nothing is changed (and a message explains why) if the highest Amount is 0 or if a mesh that needs rescaling is shared with other objects (linked duplicates): make it single-user first with *Object › Relations › Make Single User*.
 
-### Remove Custom Label from Selected Nodes
+### <img src="icons/remove_custom_label.png" width="64" alt=""> Remove Custom Label from Selected Nodes
 
 - **File:** `remove_custom_label.py`
 - **Tool name:** Remove Custom Label from Selected Nodes
@@ -188,7 +188,7 @@ Nothing is changed (and a message explains why) if the highest Amount is 0 or if
 
 Clears the **Custom Label** (the *Label* field in the Sidebar › Node tab) of every selected node, so each node goes back to showing its default name. Frames are included. Nodes that have no Custom Label are left untouched. A message reports how many nodes were changed.
 
-### Remove Subdivision Modifiers
+### <img src="icons/remove_subdivision_modifiers.png" width="64" alt=""> Remove Subdivision Modifiers
 
 - **File:** `remove_subdivision_modifiers.py`
 - **Tool name:** Remove Subdivision Modifiers
@@ -196,7 +196,7 @@ Clears the **Custom Label** (the *Label* field in the Sidebar › Node tab) of e
 
 One button that deletes every Subdivision Surface modifier from the selected objects. A message reports how many modifiers were removed.
 
-### Reset Active Modifier to Defaults
+### <img src="icons/reset_active_modifier.png" width="64" alt=""> Reset Active Modifier to Defaults
 
 - **File:** `reset_active_modifier.py`
 - **Tool name:** Reset Active Modifier to Defaults
@@ -208,7 +208,7 @@ The panel shows the active modifier of the active object, and its button resets 
 
 What is kept: the name, the header toggles (Viewport, Render, Edit Mode, On Cage), *Pin to Last*, the expanded/collapsed state of the panel, the objects or data-blocks the modifier points to (Mirror object, Boolean object, the node group itself...) and the Geometry Nodes bake settings. A message reports how many values were changed.
 
-### Round Values
+### <img src="icons/round_values.png" width="64" alt=""> Round Values
 
 - **File:** `round_values.py`
 - **Tool name:** Round Values
@@ -223,7 +223,7 @@ Cleans up tiny floating-point leftovers on the selected objects (for example a l
 
 The thresholds are **0.0001** by default (metres for location, degrees for rotation, plain factor for scale) and can be changed in the Preferences, where **Reset Values** restores the defaults. Location is always measured in Blender internal units (metres), even if the scene uses centimetres or millimetres. Euler, Quaternion and Axis Angle rotation modes are supported. A message reports how many channels were rounded.
 
-### Set Curve Radius to 1.0
+### <img src="icons/set_curve_radius_to_1.png" width="64" alt=""> Set Curve Radius to 1.0
 
 - **File:** `set_curve_radius_to_1.py`
 - **Tool name:** Set Curve Radius to 1.0
@@ -233,7 +233,7 @@ Sets the radius of all selected control points to **1.0**. Works on Bezier, Poly
 
 To use another value, open the *Adjust Last Operation* panel (`F9`) right after the command and change **Radius**. The menu command always starts from 1.0.
 
-### Toggle Lock Channels for Selected
+### <img src="icons/toggle_lock_transform_channels.png" width="64" alt=""> Toggle Lock Channels for Selected
 
 - **File:** `toggle_lock_transform_channels.py`
 - **Tool name:** Toggle Lock Channels for Selected
@@ -246,7 +246,7 @@ Eight commands, in two groups, that lock or unlock the transform channels of eve
 
 The rotation commands also lock or unlock **W**, used by Quaternion and Axis Angle rotations.
 
-### Transform and Deltas
+### <img src="icons/transforms_deltas.png" width="64" alt=""> Transform and Deltas
 
 - **File:** `transforms_deltas.py`
 - **Tool name:** Transform and Deltas
