@@ -9,16 +9,19 @@ which here only identifies the kit as a whole). This __init__.py does not
 implement anything: it just imports every module and calls its own
 register() / unregister() functions.
 
-Two modules are shared infrastructure, so they are always registered first
-(and unregistered last):
+Three modules are shared infrastructure. The first two are always registered
+first (and unregistered last):
   - eterea_ui:   the "Eterea Tools" Sidebar tab name and the "Eterea Tools"
                  right-click submenus.
   - preferences: the single AddonPreferences class of the kit, with one
                  collapsible section per tool that has preferences.
+The third one, documentation (the "Open Online Readme" links), is registered
+last, so that its Sidebar panel is the last one of the Eterea Tools tab.
 
 To add a new tool in the future:
   1. Copy its .py file into this same folder.
-  2. Add its module name (without ".py") to the MODULES tuple below.
+  2. Add its module name (without ".py") to the MODULES tuple below, in
+     alphabetical order and before "documentation", which must stay last.
   3. If it needs the Sidebar tab or the right-click submenus, use eterea_ui
      (see the docstring of eterea_ui.py).
   4. If it needs its own preferences, see the docstring of preferences.py.
@@ -28,7 +31,8 @@ import importlib
 import traceback
 
 # Module names (without the .py extension), in registration order.
-# Shared infrastructure first, then the tools in alphabetical order.
+# Shared infrastructure first, then the tools in alphabetical order, and
+# finally "documentation" (its Sidebar panel must be the last one).
 MODULES = (
     "eterea_ui",
     "preferences",
@@ -48,6 +52,7 @@ MODULES = (
     "set_curve_radius_to_1",
     "toggle_lock_transform_channels",
     "transforms_deltas",
+    "documentation",
 )
 
 _submodules = []

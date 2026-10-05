@@ -2,6 +2,10 @@
 
 All notable changes to **Eterea Blender Tools**. The newest version is at the top.
 
+- **1.6.2** — Online documentation (no change in what the tools do or where they are):
+  - New **Open Online Readme** button that opens the full manual on GitHub, in two places: a *Manual* row at the top of the kit's section of the Preferences (below Blender's own *Website* row) and a button at the bottom of the **Eterea Tools** Sidebar tab. New shared module `documentation.py`, registered last so its panel is the last one of the tab.
+  - The documentation (manual, changelog, tool icons and screenshots) now lives outside the kit, in the `etr_blender_tools_docs/` folder of the repository, so the installable `.zip` contains only code.
+  - New flat icons for every tool, used only in the online documentation (not in the interface of the tools).
 - **1.6.1** — The sections of the kit Preferences start closed, so all of them are visible at a glance.
 - **1.6.0** — New features:
   - **Subdivision** panel in the Eterea Tools Sidebar tab, with three collapsible sub-panels (*Levels*, *UV Smooth*, *Remove*) replacing the three separate panels.

@@ -8,7 +8,8 @@ Shared infrastructure: the single AddonPreferences class of the whole kit
 (Blender allows only one per add-on / extension), plus a small registry so
 each tool can contribute its own collapsible section to it.
 
-Preferences > Add-ons > Eterea Blender Tools shows one collapsible section per
+Preferences > Add-ons > Eterea Blender Tools starts with a "Manual" row (button
+that opens the online documentation) and then shows one collapsible section per
 registered tool ("Custom Color Nodes", ...). Every section is independent and
 starts closed, so the full list of sections is always visible at a glance.
 
@@ -30,6 +31,7 @@ property groups always exist before any tool needs them.
 import bpy
 from bpy.props import PointerProperty
 
+from . import documentation
 from .custom_color_nodes import CustomColorNodesSettings
 from .round_values import RoundValuesSettings
 
@@ -73,6 +75,9 @@ class EtereaPreferences(bpy.types.AddonPreferences):
 
     def draw(self, context):
         layout = self.layout
+
+        documentation.draw_manual_row(layout)
+        layout.separator()
 
         if not _sections:
             layout.label(text="No tool has preferences yet.")

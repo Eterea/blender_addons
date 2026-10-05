@@ -2,7 +2,7 @@
 
 A unified kit that bundles the Eterea tools (etereaestudios.com) for Blender into a single install, using Blender's **Extension** format (not the legacy add-on system).
 
-Version **1.6.1** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
+Version **1.6.2** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
 
 This is the full manual of the kit. For a short overview and the download links, see the [repository README](../README.md).
 
@@ -28,12 +28,12 @@ Most tools hook into Blender's native menus and panels. Two places are shared by
 
 An **Eterea Tools** submenu is added at the end of these right-click (context) menus:
 
-| Where you right-click                                        | What you find inside                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| 3D Viewport, Object Mode                                     | Batch Operate Attributes · Round Values · Toggle Lock Channels            |
-| Outliner                                                     | Batch Operate Attributes · Round Values · Toggle Lock Channels            |
-| 3D Viewport, Curve Edit Mode                                 | Set Curve Radius to 1.0                                                   |
-| Node Editors (Shader, Geometry Nodes, Compositor, Texture)   | Change Color Space *(Shader Editor only)* · Remove Custom Label from Selected Nodes |
+| Where you right-click                                      | What you find inside                                                                |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 3D Viewport, Object Mode                                   | Batch Operate Attributes · Round Values · Toggle Lock Channels                      |
+| Outliner                                                   | Batch Operate Attributes · Round Values · Toggle Lock Channels                      |
+| 3D Viewport, Curve Edit Mode                               | Set Curve Radius to 1.0                                                             |
+| Node Editors (Shader, Geometry Nodes, Compositor, Texture) | Change Color Space *(Shader Editor only)* · Remove Custom Label from Selected Nodes |
 
 Inside the submenu all commands are listed directly (no nested submenus), and the commands of each tool are separated from the next tool by a horizontal line. The submenu is only shown when at least one of its commands is available (for example, *Batch Operate Attributes* only appears when a Mesh, Curves or Point Cloud object is selected, and *Change Color Space* only in the Shader Editor).
 
@@ -49,9 +49,13 @@ The kit has its own tab in the 3D Viewport Sidebar (`N`), called **Eterea Tools*
 - Join Equalizing Bevels
 - Reset Modifier *(Reset Active Modifier to Defaults)*
 
+At the very bottom of the tab, an **Open Online Readme** button opens this manual in your web browser.
+
 ### Preferences
 
 `Edit > Preferences > Add-ons > Eterea Blender Tools` has one collapsible section per tool with settings: **Custom Color Nodes** and **Round Values**. The sections start closed, so all of them are visible at a glance: click a section header to open it.
+
+At the top, a **Manual** row with an **Open Online Readme** button opens this manual in your web browser.
 
 ---
 
@@ -72,7 +76,7 @@ Adds four small toggle buttons to the Asset Browser header to see and change the
 - They are hidden in the regular File Browser, and in the *Current File* and *Essentials* libraries (where nothing is imported).
 - The setting is per editor: each Asset Browser keeps its own value.
 
-### <img src="icons/batch_operate_attributes.png" width="64" alt=""> Batch Operate Attributes
+### <img title="" src="icons/batch_operate_attributes.png" alt="" width="64" data-align="inline" /> Batch Operate Attributes
 
 - **File:** `batch_operate_attributes.py`
 - **Tool name:** Batch Operate Attributes
@@ -274,6 +278,7 @@ blender_manifest.toml   Extension metadata (id, version, license...)
 __init__.py             Imports and registers every module listed in MODULES
 eterea_ui.py            Shared UI: "Eterea Tools" Sidebar tab and right-click submenus (3D Viewport, Outliner, Node Editors)
 preferences.py          Shared Preferences: the kit's single AddonPreferences, one section per tool
+documentation.py        Shared UI: "Open Online Readme" button (Preferences and Sidebar); always registered last
 <tool>.py               One module per tool
 ```
 
@@ -284,7 +289,7 @@ Every tool module starts with the same header: SPDX license line, copyright, a s
 ### Adding a new tool
 
 1. Copy the new `.py` file into the kit folder.
-2. Add its module name (without `.py`) to the `MODULES` tuple in `__init__.py`.
+2. Add its module name (without `.py`) to the `MODULES` tuple in `__init__.py`, in alphabetical order and before `documentation`, which must stay last.
 3. If it needs the kit's Sidebar tab, use `bl_category = eterea_ui.SIDEBAR_CATEGORY` in its panels.
 4. If it needs the **Eterea Tools** right-click submenu, register a section in its `register()` function and remove it in `unregister()`:
 
