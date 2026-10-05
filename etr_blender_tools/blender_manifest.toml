@@ -37,5 +37,4 @@ paths_exclude_pattern = [
     "__pycache__/",
     ".*",
     "*.zip",
-    "icons/",
 ]

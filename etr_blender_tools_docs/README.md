@@ -4,6 +4,8 @@ A unified kit that bundles the Eterea tools (etereaestudios.com) for Blender int
 
 Version **1.6.1** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
 
+This is the full manual of the kit. For a short overview and the download links, see the [repository README](../README.md).
+
 ---
 
 ## Installation
@@ -273,9 +275,9 @@ __init__.py             Imports and registers every module listed in MODULES
 eterea_ui.py            Shared UI: "Eterea Tools" Sidebar tab and right-click submenus (3D Viewport, Outliner, Node Editors)
 preferences.py          Shared Preferences: the kit's single AddonPreferences, one section per tool
 <tool>.py               One module per tool
-CHANGELOG.md            Version history
-README.md               This document
 ```
+
+The documentation (this manual, the changelog, the icons and the screenshots) lives outside the kit, in the `etr_blender_tools_docs/` folder next to it, so it is never included in the installable `.zip`.
 
 Every tool module starts with the same header: SPDX license line, copyright, a short docstring with technical notes, and a `bl_info` dictionary (name, author, version, Blender version, location, description, category). Inside an Extension Blender reads only `blender_manifest.toml`, so `bl_info` is kept purely as per-tool documentation and version history.
 
@@ -304,7 +306,7 @@ def unregister():
 Available contexts: `OBJECT_CONTEXT`, `OUTLINER_CONTEXT`, `EDIT_CURVE_CONTEXT`, `NODE_CONTEXT` (every Node Editor). A tool can register the same section in several contexts. An optional `poll_fn(context)` can be passed to hide the section when it does not apply.
 
 5. If it needs its own preferences, see the docstring of `preferences.py`: register the tool's `PropertyGroup` there, add one `PointerProperty` line to `EtereaPreferences`, and call `preferences.add_section(...)` / `preferences.remove_section(...)` from the tool's `register()` / `unregister()`.
-6. Increase `version` in `blender_manifest.toml`, document the tool in this README and add an entry to `CHANGELOG.md`.
+6. Increase `version` in `blender_manifest.toml`, document the tool in this manual and add an entry to `CHANGELOG.md` (both in `etr_blender_tools_docs/`), then add its icon (see [icons/ICON_STYLE.md](icons/ICON_STYLE.md)) and a row in the table of the repository `README.md`.
 
 ### Naming conventions for new tools
 

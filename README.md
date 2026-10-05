@@ -35,14 +35,16 @@ To update, install the new `.zip` the same way: it replaces the previous version
 | <img src="icons/transforms_deltas.png" width="32" alt=""> | Transform and Deltas | Properties › Object › Transform |
 | <img src="icons/create_weight_ramp.png" width="32" alt=""> | Weight Ramp by Order | Sidebar › Eterea Tools |
 
-Full documentation of every tool: [etr_blender_tools/README.md](etr_blender_tools/README.md)  
-Version history: [etr_blender_tools/CHANGELOG.md](etr_blender_tools/CHANGELOG.md)
+Full documentation of every tool: [etr_blender_tools_docs/README.md](etr_blender_tools_docs/README.md)  
+Version history: [etr_blender_tools_docs/CHANGELOG.md](etr_blender_tools_docs/CHANGELOG.md)
 
 ## Repository structure
 
 ```
-etr_blender_tools/   Source code of the extension (one .py module per tool)
-LICENSE              GNU General Public License v3.0
+etr_blender_tools/        Source code of the extension (one .py module per tool): the only part that gets installed
+etr_blender_tools_docs/   Full documentation: manual, changelog, icons and screenshots (online only)
+icons/                    Small tool icons used in this README
+LICENSE                   GNU General Public License v3.0
 ```
 
 To build the installable `.zip` from the source:

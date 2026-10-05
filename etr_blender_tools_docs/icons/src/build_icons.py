@@ -288,9 +288,9 @@ icons["create_weight_ramp"] = svg(
               f'<stop offset="0" stop-color="{BLUE}"/><stop offset="1" stop-color="{ORANGE}"/></linearGradient>'))
 
 # ---- Output ---------------------------------------------------------------
-# Folder layout (relative to this script, which lives in etr_blender_tools/icons/src/):
-#   etr_blender_tools/icons/src/<tool>.svg   vector sources (256 x 256)
-#   etr_blender_tools/icons/<tool>.png       large icons, 256 px (full documentation README)
+# Folder layout (relative to this script, which lives in etr_blender_tools_docs/icons/src/):
+#   etr_blender_tools_docs/icons/src/<tool>.svg   vector sources (256 x 256)
+#   etr_blender_tools_docs/icons/<tool>.png       large icons, 256 px (full documentation README)
 #   icons/<tool>.png                          small icons, 64 px (repository README table)
 HERE = os.path.dirname(os.path.abspath(__file__))
 LARGE_DIR = os.path.normpath(os.path.join(HERE, ".."))

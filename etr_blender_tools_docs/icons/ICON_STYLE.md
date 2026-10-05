@@ -11,15 +11,15 @@ Use this guide when a new tool is added to the kit, so its icon matches the rest
 
 | What | Where | Size |
 | --- | --- | --- |
-| Vector sources | `etr_blender_tools/icons/src/<tool>.svg` | 256 × 256 |
-| Generator script | `etr_blender_tools/icons/src/build_icons.py` | — |
-| Large icons (full documentation README) | `etr_blender_tools/icons/<tool>.png` | 256 px, shown at 64 px |
+| Vector sources | `etr_blender_tools_docs/icons/src/<tool>.svg` | 256 × 256 |
+| Generator script | `etr_blender_tools_docs/icons/src/build_icons.py` | — |
+| Large icons (full documentation README) | `etr_blender_tools_docs/icons/<tool>.png` | 256 px, shown at 64 px |
 | Small icons (repository README table) | `icons/<tool>.png` | 64 px, shown at 32 px |
 
 - The file name is the **module name of the tool** (`round_values.py` → `round_values.png`).
 - Both PNG sizes are rendered **from the vector source** (not by downscaling the large PNG), so the small ones stay crisp.
 - PNG files are shown at half their real size in the READMEs, so they look sharp on high-density (Retina) screens.
-- The whole `icons/` folder inside `etr_blender_tools` is excluded from the extension `.zip` (`paths_exclude_pattern` in `blender_manifest.toml`).
+- The documentation folder (`etr_blender_tools_docs/`) lives outside the extension folder (`etr_blender_tools/`), so none of these files ends up in the installable `.zip`.
 
 ### Regenerating the icons
 
@@ -27,7 +27,7 @@ All icons are defined as SVG code inside `build_icons.py`, one block per tool, u
 
 ```
 pip install cairosvg
-python3 etr_blender_tools/icons/src/build_icons.py
+python3 etr_blender_tools_docs/icons/src/build_icons.py
 ```
 
 It rewrites the `.svg` sources and both PNG sets.
@@ -40,7 +40,7 @@ Repository README (`README.md`, "What is included" table), first column:
 <img src="icons/<tool>.png" width="32" alt="">
 ```
 
-Full documentation (`etr_blender_tools/README.md`), inside the tool heading:
+Full documentation (`etr_blender_tools_docs/README.md`), inside the tool heading:
 
 ```markdown
 ### <img src="icons/<tool>.png" width="64" alt=""> Tool Name
