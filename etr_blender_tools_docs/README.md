@@ -118,6 +118,8 @@ Note: the Color Space belongs to the image itself, so any other node using the s
 - **Tool name:** Change Selected SDS Levels
 - **Location:** 3D Viewport › Sidebar (N) › Eterea Tools › Subdivision › *Levels*
 
+![](images/change_selected_sds_levels_ui.png)
+
 Set **Levels Viewport** and **Levels Render** in the panel (0 to 6), then click **Apply New Levels**: every Subdivision Surface modifier on the selected objects gets those values. The two numbers are saved with the scene. A message reports how many modifiers were changed (or that none was found).
 
 ### <img src="icons/change_selected_sds_uv_smooth.png" width="64" alt=""> Change SDS UV Smooth
@@ -125,6 +127,8 @@ Set **Levels Viewport** and **Levels Render** in the panel (0 to 6), then click 
 - **File:** `change_selected_sds_uv_smooth.py`
 - **Tool name:** Change SDS UV Smooth
 - **Location:** 3D Viewport › Sidebar (N) › Eterea Tools › Subdivision › *UV Smooth*
+
+![](images/change_selected_sds_uv_smooth_ui.png)
 
 Two buttons, **Keep Boundaries** and **Keep Corners**, set the *UV Smooth* option of every Subdivision Surface modifier on the selected objects (all the Subdivision Surface modifiers of each object, if it has more than one). It saves you from changing the option object by object when many objects share the same UV layout. A message reports how many modifiers were changed.
 
@@ -200,13 +204,13 @@ Nothing is changed (and a message explains why) if the highest Amount is 0 or if
 
 Clears the **Custom Label** (the *Label* field in the Sidebar › Node tab) of every selected node, so each node goes back to showing its default name. Frames are included. Nodes that have no Custom Label are left untouched. A message reports how many nodes were changed.
 
-Use case: Node Wrangler creates this “Normal” or “Base Color” custom labels, automatically, at using Shift-Ctrl-T for “Add Principled Texture Setup”:
+#### Use case
+
+Node Wrangler creates this “Normal” or “Base Color” custom labels, automatically, at using Shift-Ctrl-T for “Add Principled Texture Setup”. By removing those custom labels I get the original full image names, and then I can collapse my nodes while knowing what's inside:
 
 ![](images/remove_custom_label_ui.png)
 
-By removing those custom labels I get the original full image names, and then I can collapse my nodes while knowing what's inside.
-
-And, of course, you can simple remove all those custom labels to a bunch of nodes in the Geometry Nodes editor, in a single shot.
+And of course, you can instantly remove all the custom labels you’ve previously created from as many nodes as you like—in any editor—if you decide you no longer want them…
 
 ### <img src="icons/remove_subdivision_modifiers.png" width="64" alt=""> Remove Subdivision Modifiers
 
