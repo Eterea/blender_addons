@@ -200,6 +200,14 @@ Nothing is changed (and a message explains why) if the highest Amount is 0 or if
 
 Clears the **Custom Label** (the *Label* field in the Sidebar › Node tab) of every selected node, so each node goes back to showing its default name. Frames are included. Nodes that have no Custom Label are left untouched. A message reports how many nodes were changed.
 
+Use case: Node Wrangler creates this “Normal” or “Base Color” custom labels, automatically, at using Shift-Ctrl-T for “Add Principled Texture Setup”:
+
+![](images/remove_custom_label_ui.png)
+
+By removing those custom labels I get the original full image names, and then I can collapse my nodes while knowing what's inside.
+
+And, of course, you can simple remove all those custom labels to a bunch of nodes in the Geometry Nodes editor, in a single shot.
+
 ### <img src="icons/remove_subdivision_modifiers.png" width="64" alt=""> Remove Subdivision Modifiers
 
 - **File:** `remove_subdivision_modifiers.py`
