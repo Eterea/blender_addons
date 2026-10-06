@@ -138,6 +138,8 @@ Two buttons, **Keep Boundaries** and **Keep Corners**, set the *UV Smooth* optio
 - **Tool name:** Copy Viewport Color
 - **Location:** 3D Viewport › Object › Link/Transfer Data (`Ctrl+L` / `Cmd+L`) › Copy Viewport Color
 
+![](images/copy_viewport_color_ui.png)
+
 Copies the **Viewport Display › Color** of the active object to all the other selected objects, whatever their type. Select the targets first and the source object last (so it is the active one).
 
 If a future Blender version renames the *Link/Transfer Data* menu, the command automatically moves to the 3D Viewport right-click menu instead.
