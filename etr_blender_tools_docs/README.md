@@ -84,6 +84,8 @@ Adds four small toggle buttons to the Asset Browser header to see and change the
 - **Tool name:** Batch Operate Attributes
 - **Location:** 3D Viewport (Object Mode) › Right-Click › Eterea Tools, and Outliner › Right-Click › Eterea Tools
 
+![](images/batch_operate_attributes_ui.png)
+
 Two commands to manage an attribute on many objects at once. They work on **Mesh**, **Curves** (the hair / Geometry Nodes curves) and **Point Cloud** objects, and are only shown when at least one of them is selected. (Legacy Bezier / NURBS Curve objects have no generic attributes, so they are ignored.)
 
 - **Rename Attribute on Selected Objects:** pick the current name and type the new one. The attribute is renamed on every selected object that has it. If an object already has an attribute with the new name, it is skipped, so nothing is ever overwritten.
