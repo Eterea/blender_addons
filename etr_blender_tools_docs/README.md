@@ -101,6 +101,8 @@ A message in the status bar reports how many objects were changed, how many were
 - **Tool name:** Change Color Space
 - **Location:** Shader Editor › Right-Click › Eterea Tools
 
+![](images/change_color_space_ui.png)
+
 Two commands set the Color Space of the images used by the selected *Image Texture* nodes:
 
 - **Color Space to Non-Color** (for data maps: roughness, normal, displacement...)
