@@ -69,6 +69,8 @@ Tools are listed in alphabetical order of their file name.
 - **Tool name:** Asset Import Buttons
 - **Location:** Asset Browser › Header (at the very start, left side)
 
+![](images/asset_import_buttons_ui.png)
+
 Adds four small toggle buttons to the Asset Browser header to see and change the **Import Method** at a glance: **P** (Follow Asset or Preferences), **Link**, **Append** and **Pack**. The active method is highlighted.
 
 - The buttons control exactly the same setting as Blender's native *Import Settings* popover, so both are always in sync.
