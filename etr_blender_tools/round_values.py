@@ -4,29 +4,39 @@
 """
 Round Values
 
-Available in the 3D Viewport Object > Transform menu and also in the shared
-"Eterea Tools" submenu of the 3D Viewport (Object Mode) and Outliner
-right-click menus (see eterea_ui.py).
+Two commands, available in the 3D Viewport Object > Transform menu and also in
+the shared "Eterea Tools" submenu of the 3D Viewport (Object Mode) and Outliner
+right-click menus (see eterea_ui.py):
 
-The thresholds (1e-4 by default) are set in the add-on Preferences, section
-"Round Values". They are always in Blender internal units (metres for
-location, degrees for rotation, plain factor for scale), independent of the
-scene unit system. Euler, Quaternion and Axis Angle rotation modes are all
+- Round Values to 0 or 1: location and rotation close to 0 become 0, scale
+  close to 1 or -1 becomes 1 or -1.
+- Round Near-Integer Values: every channel close to a whole number (positive or
+  negative) becomes that number, e.g. location 5.00001 -> 5.0, rotation
+  -17.00003 degrees -> -17.0, scale 8.00004 -> 8.0. A scale is never rounded
+  to 0 (that would collapse the object).
+
+Both commands share the same thresholds (1e-4 by default), set in the add-on
+Preferences, section "Round Values". They are always in Blender internal units
+(metres for location, degrees for rotation, plain factor for scale),
+independent of the scene unit system, and so are the whole numbers of the
+second command. Euler, Quaternion and Axis Angle rotation modes are all
 supported.
 """
 
 bl_info = {
     "name": "Round Values",
     "author": "Idea by Cristobal Vila / Code by Claude.ai",
-    "version": (1, 5, 0),
+    "version": (1, 6, 0),
     "blender": (5, 2, 0),
     "location": (
-        "3D Viewport > Object > Transform > Round values to 0 or 1; "
+        "3D Viewport > Object > Transform > Round Values to 0 or 1 / "
+        "Round Near-Integer Values; "
         "3D Viewport / Outliner > Right-Click > Eterea Tools"
     ),
     "description": (
         "Round near-zero location/rotation channels to 0 and near-unit scale "
-        "channels to +/-1 on the selected objects."
+        "channels to +/-1, or round channels close to any whole number to "
+        "that number, on the selected objects."
     ),
     "category": "Object",
 }
@@ -66,8 +76,9 @@ class RoundValuesSettings(bpy.types.PropertyGroup):
     location_threshold: FloatProperty(
         name="Location (m)",
         description=(
-            "Location values closer to 0 than this are set to 0. Always in "
-            "Blender internal units (metres), whatever the scene unit system"
+            "Location values closer than this to 0 (or to a whole number, in "
+            "Round Near-Integer Values) are rounded. Always in Blender "
+            "internal units (metres), whatever the scene unit system"
         ),
         default=DEFAULT_LOCATION_THRESHOLD,
         min=0.0,
@@ -77,7 +88,10 @@ class RoundValuesSettings(bpy.types.PropertyGroup):
     )
     rotation_threshold: FloatProperty(
         name="Rotation (degrees)",
-        description="Rotation values closer to 0 degrees than this are set to 0",
+        description=(
+            "Rotation values closer than this to 0 degrees (or to a whole "
+            "number of degrees, in Round Near-Integer Values) are rounded"
+        ),
         default=DEFAULT_ROTATION_THRESHOLD_DEG,
         min=0.0,
         soft_max=1.0,
@@ -86,7 +100,10 @@ class RoundValuesSettings(bpy.types.PropertyGroup):
     )
     scale_threshold: FloatProperty(
         name="Scale",
-        description="Scale values closer to 1 (or -1) than this are set to 1 (or -1)",
+        description=(
+            "Scale values closer than this to 1 or -1 (or to a whole number, "
+            "in Round Near-Integer Values) are rounded"
+        ),
         default=DEFAULT_SCALE_THRESHOLD,
         min=0.0,
         soft_max=0.01,
@@ -125,34 +142,92 @@ def get_thresholds(context=None):
 
 # ---------------------------------------------------------------------------
 # Core rounding logic
+#
+# Each "snap" function receives a value and a threshold and returns the value
+# the channel must take, or None when it must stay as it is. Two sets of snap
+# functions exist, one per command (see _MODES).
 # ---------------------------------------------------------------------------
 
-def _round_location(obj, threshold):
+# Rotation noise left by converting a Quaternion to Euler angles and back
+# (float32 precision). Differences below this are not real changes, so a
+# quaternion that is already rounded is not reported as modified every time.
+_ANGLE_NOISE_RAD = 5e-7
+
+
+def _snap_to_zero(value, threshold):
+    """Round to 0 or 1: location and rotation go to 0."""
+    if value != 0.0 and abs(value) <= threshold:
+        return 0.0
+    return None
+
+
+def _snap_scale_to_unit(value, threshold):
+    """Round to 0 or 1: scale goes to 1 or -1."""
+    if value != 1.0 and abs(value - 1.0) <= threshold:
+        return 1.0
+    if value != -1.0 and abs(value + 1.0) <= threshold:
+        return -1.0
+    return None
+
+
+def _snap_to_integer(value, threshold):
+    """Round near-integers: location goes to the nearest whole number."""
+    target = float(round(value))
+    if value != target and abs(value - target) <= threshold:
+        return target
+    return None
+
+
+def _snap_scale_to_integer(value, threshold):
+    """Round near-integers: scale goes to the nearest whole number, except 0.
+
+    A scale of 0 would collapse the object, so it is never a target.
+    """
+    target = float(round(value))
+    if target != 0.0 and value != target and abs(value - target) <= threshold:
+        return target
+    return None
+
+
+def _snap_angle_to_integer(value, threshold):
+    """Round near-integers: rotation (radians) goes to the nearest whole degree."""
+    target = math.radians(round(math.degrees(value)))
+    if abs(value - target) <= threshold:
+        return target
+    return None
+
+
+# Per command: (location snap, rotation snap, scale snap, quaternion noise).
+_MODES = {
+    'ZERO_ONE': (_snap_to_zero, _snap_to_zero, _snap_scale_to_unit, 0.0),
+    'INTEGER': (_snap_to_integer, _snap_angle_to_integer,
+                _snap_scale_to_integer, _ANGLE_NOISE_RAD),
+}
+
+
+def _round_channels(values, snap, threshold):
+    """Apply `snap` to every item of `values` (a 3-component vector)."""
     changes = 0
-    loc = obj.location
-    for i in range(3):
-        if abs(loc[i]) <= threshold and loc[i] != 0.0:
-            loc[i] = 0.0
+    for i in range(len(values)):
+        old = values[i]
+        new = snap(old, threshold)
+        if new is None:
+            continue
+        values[i] = new
+        # Compare what was really stored (float32): a value that is already
+        # as close as float32 allows to its target is not a change.
+        if values[i] != old:
             changes += 1
     return changes
 
 
-def _round_rotation_euler(obj, threshold):
-    changes = 0
-    rot = obj.rotation_euler
-    for i in range(3):
-        if abs(rot[i]) <= threshold and rot[i] != 0.0:
-            rot[i] = 0.0
-            changes += 1
-    return changes
-
-
-def _round_rotation_quaternion(obj, threshold):
+def _round_rotation_quaternion(obj, snap, threshold, noise):
     euler = obj.rotation_quaternion.to_euler()
     changed = False
     for i in range(3):
-        if abs(euler[i]) <= threshold and euler[i] != 0.0:
-            euler[i] = 0.0
+        new = snap(euler[i], threshold)
+        if new is not None and abs(new - euler[i]) > noise:
+            euler[i] = new
             changed = True
     if changed:
         obj.rotation_quaternion = euler.to_quaternion()
@@ -160,57 +235,44 @@ def _round_rotation_quaternion(obj, threshold):
     return 0
 
 
-def _round_rotation_axis_angle(obj, threshold):
+def _round_rotation_axis_angle(obj, snap, threshold):
     # rotation_axis_angle[0] is the angle (radians); [1-3] are the axis vector.
-    if abs(obj.rotation_axis_angle[0]) <= threshold \
-            and obj.rotation_axis_angle[0] != 0.0:
-        obj.rotation_axis_angle[0] = 0.0
-        return 1
-    return 0
+    angle = obj.rotation_axis_angle[0]
+    new = snap(angle, threshold)
+    if new is None:
+        return 0
+    obj.rotation_axis_angle[0] = new
+    return 1 if obj.rotation_axis_angle[0] != angle else 0
 
 
-def _round_scale(obj, threshold):
-    changes = 0
-    scale = obj.scale
-    for i in range(3):
-        v = scale[i]
-        if abs(v - 1.0) <= threshold and v != 1.0:
-            scale[i] = 1.0
-            changes += 1
-        elif abs(v + 1.0) <= threshold and v != -1.0:
-            scale[i] = -1.0
-            changes += 1
-    return changes
-
-
-def round_object_transforms(obj, thresholds):
+def round_object_transforms(obj, thresholds, mode='ZERO_ONE'):
     """Round the transforms of `obj`. Return the number of channels changed.
 
     `thresholds` is (location, rotation in radians, scale), see get_thresholds().
+    `mode` is 'ZERO_ONE' (round to 0 or 1) or 'INTEGER' (round near-integer values).
     """
     loc_threshold, rot_threshold, scale_threshold = thresholds
+    snap_loc, snap_rot, snap_scale, noise = _MODES[mode]
     if obj.rotation_mode == 'QUATERNION':
-        rotation = _round_rotation_quaternion(obj, rot_threshold)
+        rotation = _round_rotation_quaternion(obj, snap_rot, rot_threshold, noise)
     elif obj.rotation_mode == 'AXIS_ANGLE':
-        rotation = _round_rotation_axis_angle(obj, rot_threshold)
+        rotation = _round_rotation_axis_angle(obj, snap_rot, rot_threshold)
     else:
-        rotation = _round_rotation_euler(obj, rot_threshold)
+        rotation = _round_channels(obj.rotation_euler, snap_rot, rot_threshold)
     return {
-        "location": _round_location(obj, loc_threshold),
+        "location": _round_channels(obj.location, snap_loc, loc_threshold),
         "rotation": rotation,
-        "scale": _round_scale(obj, scale_threshold),
+        "scale": _round_channels(obj.scale, snap_scale, scale_threshold),
     }
 
 
 # ---------------------------------------------------------------------------
-# Operator
+# Operators (one per command, sharing the same logic)
 # ---------------------------------------------------------------------------
 
-class OBJECT_OT_etr_round_values(bpy.types.Operator):
-    """Round near-zero location/rotation channels to 0 and near-unit scale to +/-1"""
-    bl_idname = "object.etr_round_values"
-    bl_label = "Round values to 0 or 1"
+class _RoundValuesMixin:
     bl_options = {'REGISTER', 'UNDO'}
+    mode = 'ZERO_ONE'
 
     @classmethod
     def poll(cls, context):
@@ -221,7 +283,7 @@ class OBJECT_OT_etr_round_values(bpy.types.Operator):
         thresholds = get_thresholds(context)
 
         for obj in context.selected_objects:
-            res = round_object_transforms(obj, thresholds)
+            res = round_object_transforms(obj, thresholds, self.mode)
             total_loc += res["location"]
             total_rot += res["rotation"]
             total_scale += res["scale"]
@@ -240,6 +302,20 @@ class OBJECT_OT_etr_round_values(bpy.types.Operator):
                 f"location {total_loc}, rotation {total_rot}, scale {total_scale}",
             )
         return {'FINISHED'}
+
+
+class OBJECT_OT_etr_round_values(_RoundValuesMixin, bpy.types.Operator):
+    """Round near-zero location/rotation channels to 0 and near-unit scale to +/-1"""
+    bl_idname = "object.etr_round_values"
+    bl_label = "Round Values to 0 or 1"
+    mode = 'ZERO_ONE'
+
+
+class OBJECT_OT_etr_round_near_integer_values(_RoundValuesMixin, bpy.types.Operator):
+    """Round location, rotation and scale channels close to a whole number to that number"""
+    bl_idname = "object.etr_round_near_integer_values"
+    bl_label = "Round Near-Integer Values"
+    mode = 'INTEGER'
 
 
 # ---------------------------------------------------------------------------
@@ -263,8 +339,14 @@ _hooked_menu_type = None
 _hooked_draw_fn = None
 
 
+def _draw_operators(layout):
+    layout.operator(OBJECT_OT_etr_round_values.bl_idname, icon='SNAP_GRID')
+    layout.operator(OBJECT_OT_etr_round_near_integer_values.bl_idname,
+                    icon='SNAP_INCREMENT')
+
+
 def _menu_draw_in_transform(self, context):
-    self.layout.operator("object.etr_round_values", icon='SNAP_GRID')
+    _draw_operators(self.layout)
 
 
 def _menu_draw_in_object(self, context):
@@ -279,7 +361,7 @@ class ETR_MT_object_transform_submenu(bpy.types.Menu):
     bl_label = "Transform"
 
     def draw(self, context):
-        self.layout.operator("object.etr_round_values", icon='SNAP_GRID')
+        _draw_operators(self.layout)
 
 
 class OBJECT_OT_etr_round_values_reset_settings(bpy.types.Operator):
@@ -309,7 +391,7 @@ def draw_preferences(layout, context):
         layout.label(text="Preferences not available.", icon='ERROR')
         return
 
-    layout.label(text="Thresholds (values closer than this are rounded):")
+    layout.label(text="Thresholds (values closer than this are rounded, by both commands):")
     row = layout.row()
     row.alignment = 'LEFT'
     col = row.column(align=True)
@@ -322,7 +404,9 @@ def draw_preferences(layout, context):
 
     layout.separator()
     help_col = layout.column(align=True)
-    help_col.label(text="Location and rotation are rounded to 0, scale to 1 or -1.", icon='INFO')
+    help_col.label(text="Round Values to 0 or 1: location and rotation to 0, scale to 1 or -1.", icon='INFO')
+    help_col.label(text="Round Near-Integer Values: any whole number (5.00001 to 5, -17.00003 deg to -17).", icon='BLANK1')
+    help_col.label(text="A scale is never rounded to 0.", icon='BLANK1')
     help_col.label(text="Location is always in Blender internal units (metres), even if the scene", icon='BLANK1')
     help_col.label(text="uses centimetres or millimetres (Scene Properties > Units).", icon='BLANK1')
 
@@ -344,7 +428,7 @@ def poll_eterea_tools_section(context):
 
 
 def draw_eterea_tools_section(layout, context):
-    layout.operator("object.etr_round_values", icon='SNAP_GRID')
+    _draw_operators(layout)
 
 
 # ---------------------------------------------------------------------------
@@ -353,6 +437,7 @@ def draw_eterea_tools_section(layout, context):
 
 classes = (
     OBJECT_OT_etr_round_values,
+    OBJECT_OT_etr_round_near_integer_values,
     OBJECT_OT_etr_round_values_reset_settings,
 )
 

@@ -29,7 +29,7 @@ To update, install the new `.zip` the same way: it replaces the previous version
 | <img src="icons/remove_custom_label.png" width="32" alt=""> | Remove Custom Label from Selected Nodes | Right-click › Eterea Tools (Node Editors) |
 | <img src="icons/remove_subdivision_modifiers.png" width="32" alt=""> | Remove Subdivision Modifiers | Sidebar › Eterea Tools › Subdivision |
 | <img src="icons/reset_active_modifier.png" width="32" alt=""> | Reset Active Modifier to Defaults | Sidebar › Eterea Tools, and modifier right-click menu |
-| <img src="icons/round_values.png" width="32" alt=""> | Round Values | Object › Transform, and Right-click › Eterea Tools |
+| <img src="icons/round_values.png" width="32" alt=""> | Round Values (to 0 or 1, or near-integer values) | Object › Transform, and Right-click › Eterea Tools |
 | <img src="icons/set_curve_radius_to_1.png" width="32" alt=""> | Set Curve Radius to 1.0 | Right-click › Eterea Tools (Curve Edit Mode) |
 | <img src="icons/toggle_lock_transform_channels.png" width="32" alt=""> | Toggle Lock Channels for Selected | Right-click › Eterea Tools (3D Viewport, Outliner) |
 | <img src="icons/transforms_deltas.png" width="32" alt=""> | Transform and Deltas | Properties › Object › Transform |

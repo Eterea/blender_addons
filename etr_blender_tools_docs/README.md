@@ -2,7 +2,7 @@
 
 A unified kit that bundles the Eterea tools (etereaestudios.com) for Blender into a single install, using Blender's **Extension** format (not the legacy add-on system).
 
-Version **1.6.3** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
+Version **1.7.0** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
 
 This is the full manual of the kit. For a short overview and the download links, see the [repository README](../README.md).
 
@@ -202,6 +202,8 @@ Joins the selected objects (into the active one) while keeping each part's bevel
 2. It scales each object's edge *Bevel Weights* by its own Amount divided by that highest Amount.
 3. It joins the objects and sets the remaining Bevel modifier to the highest Amount.
 
+![](images/join_equalizing_bevels_ui.png)
+
 Requirements: Object Mode, at least two meshes selected, and a Bevel modifier on the **active** object (it is the one kept after the join). The Bevel modifiers should be limited by *Weight* and affect *Edges*; if one does not, the result is still joined but a warning tells you its size may differ. Only the first Bevel modifier of each object is taken into account, and the objects are assumed to have the same scale.
 
 Nothing is changed (and a message explains why) if the highest Amount is 0 or if a mesh that needs rescaling is shared with other objects (linked duplicates): make it single-user first with *Object › Relations › Make Single User*.
@@ -228,6 +230,8 @@ And of course, you can instantly remove all the custom labels you’ve previousl
 - **Tool name:** Remove Subdivision Modifiers
 - **Location:** 3D Viewport › Sidebar (N) › Eterea Tools › Subdivision › *Remove*
 
+![](images/remove_subdivision_modifiers_ui.png)
+
 One button that deletes every Subdivision Surface modifier from the selected objects. A message reports how many modifiers were removed.
 
 ### <img src="icons/reset_active_modifier.png" width="64" alt=""> Reset Active Modifier to Defaults
@@ -240,22 +244,38 @@ The panel shows the active modifier of the active object, and its button resets 
 
 **Reset Modifier to Defaults** puts all its parameters back to the values of a newly added modifier of the same type (including vector parameters such as the Mirror axes or the Array offsets). For **Geometry Nodes** modifiers, the exposed inputs (value, and *Value / Attribute* mode with its attribute name) are reset to the defaults defined in the node group.
 
+![](images/reset_active_modifier_ui.png)
+
 What is kept: the name, the header toggles (Viewport, Render, Edit Mode, On Cage), *Pin to Last*, the expanded/collapsed state of the panel, the objects or data-blocks the modifier points to (Mirror object, Boolean object, the node group itself...) and the Geometry Nodes bake settings. A message reports how many values were changed.
 
 ### <img src="icons/round_values.png" width="64" alt=""> Round Values
 
 - **File:** `round_values.py`
 - **Tool name:** Round Values
-- **Location:** 3D Viewport › Object › Transform › *Round values to 0 or 1*. Also in 3D Viewport (Object Mode) › Right-Click › Eterea Tools, and Outliner › Right-Click › Eterea Tools
+- **Location:** 3D Viewport › Object › Transform › *Round Values to 0 or 1* and *Round Near-Integer Values*. Also in 3D Viewport (Object Mode) › Right-Click › Eterea Tools, and Outliner › Right-Click › Eterea Tools
 
-Cleans up tiny floating-point leftovers on the selected objects (for example a location of 0.000012 after moving things around):
+Cleans up tiny floating-point leftovers on the selected objects (for example a location of 0.000012 after moving things around). There are two commands:
+
+**Round Values to 0 or 1**
 
 - Location and Rotation values very close to 0 become exactly **0**.
 - Scale values very close to 1 or -1 become exactly **1** or **-1**.
 
+**Round Near-Integer Values**
+
+Extends the rounding to **any whole number**, positive or negative, using the same thresholds. Only values that are already *almost* a whole number change (`8.000025` becomes `8.0`, but `8.025` does not):
+
+- Location `5.00001` becomes `5.0`, and `-42.00002` becomes `-42.0`. But `5.01` or `-45.005` stay as they are.
+- Rotation (in degrees) `-17.00003` becomes `-17.0`. But `-14.05` stays as it is.
+- Scale `8.00004` becomes `8.0`. But `8.005` stays as it is.
+- A **Scale is never rounded to 0**, because that would collapse the object (a scale of 0.00001 stays untouched).
+- The whole numbers are those of Blender internal units (metres for location), whatever the scene unit system.
+
+Both commands are independent: *Round Values to 0 or 1* is still there and works as before.
+
 - **Preferences:** Preferences › Add-ons › Eterea Blender Tools › *Round Values*
 
-The thresholds are **0.0001** by default (metres for location, degrees for rotation, plain factor for scale) and can be changed in the Preferences, where **Reset Values** restores the defaults. Location is always measured in Blender internal units (metres), even if the scene uses centimetres or millimetres. Euler, Quaternion and Axis Angle rotation modes are supported. A message reports how many channels were rounded.
+Both commands share the same thresholds, which are **0.0001** by default (metres for location, degrees for rotation, plain factor for scale) and can be changed in the Preferences, where **Reset Values** restores the defaults. Location is always measured in Blender internal units (metres), even if the scene uses centimetres or millimetres. Euler, Quaternion and Axis Angle rotation modes are supported. A message reports how many channels were rounded; repeating a command on values that are already rounded reports that nothing needed rounding.
 
 ### <img src="icons/set_curve_radius_to_1.png" width="64" alt=""> Set Curve Radius to 1.0
 

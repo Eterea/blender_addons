@@ -2,6 +2,10 @@
 
 All notable changes to **Eterea Blender Tools**. The newest version is at the top.
 
+- **1.7.0** — New command in *Round Values* (module version 1.6.0):
+  - New **Round Near-Integer Values**: rounds location, rotation (degrees) and scale to the nearest whole number, positive or negative, when they are within the thresholds (location `5.00001` → `5.0`, rotation `-17.00003°` → `-17.0°`, scale `8.00004` → `8.0`; `5.01`, `-14.05°` or `8.005` do not change). A scale is never rounded to 0.
+  - The existing **Round Values to 0 or 1** keeps working as before (its label is now in Title Case; the identifier is unchanged). Both commands share the same thresholds (Preferences › *Round Values*), appear together in Object › Transform and in the *Eterea Tools* right-click submenus, and work with Euler, Quaternion and Axis Angle rotations.
+  - Repeating a command on values that are already rounded reports that nothing needed rounding.
 - **1.6.3** — Sidebar fixes (no change in what the tools do):
   - The **Eterea Tools** tab no longer appears before Blender's native **Item**, **Tool** and **View** tabs of the Sidebar (N): it now goes after them.
   - The **Open Online Readme** button is now at the bottom of the **Eterea Tools** tab, below the last tool, instead of at the top. It lives in a collapsible **Documentation** panel (a panel without a header made Blender place it first, ahead of everything else).

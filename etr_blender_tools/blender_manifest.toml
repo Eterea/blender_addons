@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "etr_blender_tools"
-version = "1.6.3"
+version = "1.7.0"
 name = "Eterea Blender Tools"
 tagline = "Unified kit of Eterea tools for Blender"
 maintainer = "Cristobal Vila <etereaestudios@gmail.com>"
