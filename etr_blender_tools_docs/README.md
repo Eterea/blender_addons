@@ -84,12 +84,12 @@ Adds four small toggle buttons to the Asset Browser header to see and change the
 - **Tool name:** Batch Operate Attributes
 - **Location:** 3D Viewport (Object Mode) › Right-Click › Eterea Tools, and Outliner › Right-Click › Eterea Tools
 
-![](images/batch_operate_attributes_ui.png)
-
 Two commands to manage an attribute on many objects at once. They work on **Mesh**, **Curves** (the hair / Geometry Nodes curves) and **Point Cloud** objects, and are only shown when at least one of them is selected. (Legacy Bezier / NURBS Curve objects have no generic attributes, so they are ignored.)
 
 - **Rename Attribute on Selected Objects:** pick the current name and type the new one. The attribute is renamed on every selected object that has it. If an object already has an attribute with the new name, it is skipped, so nothing is ever overwritten.
 - **Delete Attribute on Selected Objects:** pick the name. The attribute is removed from every selected object that has it.
+
+![](images/batch_operate_attributes_ui.png)
 
 Clicking the name field opens a **searchable list of the attributes found on the selected objects**, with their domain, type and on how many of the selected objects each one exists (for example *Point · Float · 3 of 4*). Typing filters the list, and any other name can still be typed. Internal attributes (names starting with a dot) are not listed.
 
@@ -101,14 +101,14 @@ A message in the status bar reports how many objects were changed, how many were
 - **Tool name:** Change Color Space
 - **Location:** Shader Editor › Right-Click › Eterea Tools
 
-![](images/change_color_space_ui.png)
-
 Two commands set the Color Space of the images used by the selected *Image Texture* nodes:
 
 - **Color Space to Non-Color** (for data maps: roughness, normal, displacement...)
 - **Color Space to sRGB** (for color maps)
 
 How to use it: select one or several *Image Texture* nodes, right-click in the Shader Editor and choose the command from **Eterea Tools**. It also works inside node groups. Nodes without an image are ignored, and a message reports how many images were changed.
+
+![](images/change_color_space_ui.png)
 
 Note: the Color Space belongs to the image itself, so any other node using the same image is affected too. If your OCIO configuration has no color space with that exact name (for example a custom ACES configuration), nothing is changed and an error message tells you so.
 
@@ -138,9 +138,9 @@ Two buttons, **Keep Boundaries** and **Keep Corners**, set the *UV Smooth* optio
 - **Tool name:** Copy Viewport Color
 - **Location:** 3D Viewport › Object › Link/Transfer Data (`Ctrl+L` / `Cmd+L`) › Copy Viewport Color
 
-![](images/copy_viewport_color_ui.png)
-
 Copies the **Viewport Display › Color** of the active object to all the other selected objects, whatever their type. Select the targets first and the source object last (so it is the active one).
+
+![](images/copy_viewport_color_ui.png)
 
 If a future Blender version renames the *Link/Transfer Data* menu, the command automatically moves to the 3D Viewport right-click menu instead.
 
@@ -155,6 +155,8 @@ Creates a Vertex Group whose weights follow the **order in which you select the 
 1. Go into Edit Mode on a mesh, in Vertex Select mode.
 2. Click the first vertex, then `Shift`+click the rest one by one, in the order you want.
 3. Click **Create Weight Ramp**.
+
+![](images/create_weight_ramp_ui.png)
 
 A new Vertex Group named **ETR VertSelOrder 000** (then 001, 002...) is created, with weights ramping linearly from 0 (first vertex selected) to 1 (last vertex selected). The object then switches to Weight Paint Mode so you can see the result. Useful, for example, to drive effects along a path of vertices.
 
@@ -174,11 +176,17 @@ Sets the background color of the selected nodes and frames from a palette of 20 
 
 The tooltip of each swatch shows the name of its color on the second line (*Dark* + name for row 2).
 
+![](images/custom_color_nodes_ui_01.png)
+
 Below the swatches:
 
 - **Color:** live color picker; any change is applied right away to the selected nodes and frames.
 - **Copy from Active:** copies the color of the active node or frame to all the selected ones.
 - **Disable:** turns the custom color off on the selected nodes and frames.
+
+![](images/custom_color_nodes_ui_02.png)
+
+![](images/custom_color_nodes_ui_03.png)
 
 In the Preferences, **Reset Values** restores the 10 original colors and their names, the default Saturation and Value, and the default Vertical Offset. All values are stored in the Preferences, so they persist between sessions. The shortcut of the floating palette and its **Vertical Offset** (how many pixels above the mouse pointer it opens, so it does not cover the nodes; negative values move it down) can also be changed there.
 
