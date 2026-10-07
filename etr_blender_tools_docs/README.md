@@ -256,12 +256,14 @@ What is kept: the name, the header toggles (Viewport, Render, Edit Mode, On Cage
 
 Cleans up tiny floating-point leftovers on the selected objects (for example a location of 0.000012 after moving things around). There are two commands:
 
-**Round Values to 0 or 1**
+#### Round Values to 0 or 1
 
 - Location and Rotation values very close to 0 become exactly **0**.
 - Scale values very close to 1 or -1 become exactly **1** or **-1**.
 
-**Round Near-Integer Values**
+![](images/round_values_ui_01.png)
+
+#### Round Near-Integer Values
 
 Extends the rounding to **any whole number**, positive or negative, using the same thresholds. Only values that are already *almost* a whole number change (`8.000025` becomes `8.0`, but `8.025` does not):
 
@@ -271,9 +273,15 @@ Extends the rounding to **any whole number**, positive or negative, using the sa
 - A **Scale is never rounded to 0**, because that would collapse the object (a scale of 0.00001 stays untouched).
 - The whole numbers are those of Blender internal units (metres for location), whatever the scene unit system.
 
-Both commands are independent: *Round Values to 0 or 1* is still there and works as before.
+![](images/round_values_ui_02.png)
+
+**The user can control the thresholds** for the rounding operations in:
 
 - **Preferences:** Preferences › Add-ons › Eterea Blender Tools › *Round Values*
+
+![](images/round_values_ui_03.png)
+
+![](images/round_values_ui_04.png)
 
 Both commands share the same thresholds, which are **0.0001** by default (metres for location, degrees for rotation, plain factor for scale) and can be changed in the Preferences, where **Reset Values** restores the defaults. Location is always measured in Blender internal units (metres), even if the scene uses centimetres or millimetres. Euler, Quaternion and Axis Angle rotation modes are supported. A message reports how many channels were rounded; repeating a command on values that are already rounded reports that nothing needed rounding.
 
