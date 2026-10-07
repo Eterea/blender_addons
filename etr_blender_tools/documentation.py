@@ -12,7 +12,7 @@ folder of the repository.
     (Preferences > Add-ons > Eterea Blender Tools). It mimics the native
     "Website" row that Blender draws above it from the manifest. See
     draw_manual_row(), called by preferences.py.
-  - "Open Online Readme" button at the bottom of the "Eterea Tools" tab of the
+  - "Open Online Readme" button, in the "Documentation" panel at the bottom of the "Eterea Tools" tab of the
     3D Viewport Sidebar (N).
 
 Both open DOCUMENTATION_URL in the web browser using Blender's own
@@ -20,6 +20,13 @@ wm.url_open operator, so this module defines no operators.
 
 This module is registered last (see MODULES in __init__.py) so that its Sidebar
 panel is the last one of the Eterea Tools tab; bl_order reinforces it.
+
+IMPORTANT: the Sidebar panel must NOT use the HIDE_HEADER option. When Blender
+registers a panel, header-less panels get priority and are inserted at the very
+beginning of the panel list (ignoring bl_order and registration order). That
+would put this panel at the top of its tab and, worse, would make the
+"Eterea Tools" tab the first one of the whole Sidebar, ahead of the native
+Item, Tool and View tabs. So the panel keeps a normal (collapsible) header.
 """
 
 import bpy
@@ -57,8 +64,8 @@ class ETR_PT_documentation(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = eterea_ui.SIDEBAR_CATEGORY
-    bl_order = 1000
-    bl_options = {'HIDE_HEADER'}
+    bl_order = 1000  # After every tool panel (they use the default, 0)
+    # No HIDE_HEADER here: see the note in the module docstring.
 
     def draw(self, context):
         draw_readme_button(self.layout)

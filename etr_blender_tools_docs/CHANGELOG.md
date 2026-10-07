@@ -2,6 +2,9 @@
 
 All notable changes to **Eterea Blender Tools**. The newest version is at the top.
 
+- **1.6.3** — Sidebar fixes (no change in what the tools do):
+  - The **Eterea Tools** tab no longer appears before Blender's native **Item**, **Tool** and **View** tabs of the Sidebar (N): it now goes after them.
+  - The **Open Online Readme** button is now at the bottom of the **Eterea Tools** tab, below the last tool, instead of at the top. It lives in a collapsible **Documentation** panel (a panel without a header made Blender place it first, ahead of everything else).
 - **1.6.2** — Online documentation (no change in what the tools do or where they are):
   - New **Open Online Readme** button that opens the full manual on GitHub, in two places: a *Manual* row at the top of the kit's section of the Preferences (below Blender's own *Website* row) and a button at the bottom of the **Eterea Tools** Sidebar tab. New shared module `documentation.py`, registered last so its panel is the last one of the tab.
   - The documentation (manual, changelog, tool icons and screenshots) now lives outside the kit, in the `etr_blender_tools_docs/` folder of the repository, so the installable `.zip` contains only code.

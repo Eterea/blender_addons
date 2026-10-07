@@ -2,7 +2,7 @@
 
 A unified kit that bundles the Eterea tools (etereaestudios.com) for Blender into a single install, using Blender's **Extension** format (not the legacy add-on system).
 
-Version **1.6.2** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
+Version **1.6.3** · Requires **Blender 5.2** or newer · License **GPL-3.0-or-later**
 
 This is the full manual of the kit. For a short overview and the download links, see the [repository README](../README.md).
 
