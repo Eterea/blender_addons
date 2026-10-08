@@ -8,6 +8,10 @@ This is the full manual of the kit. For a short overview and the download links,
 
 ---
 
+ 🟢 [Go to Blender Resources at etereaestudios.com](https://etereaestudios.com/resources/blender-resources/)
+
+---
+
 ## Installation
 
 1. In Blender: `Edit > Preferences > Get Extensions > ⌄ (top-right menu) > Install from Disk...`
@@ -293,6 +297,8 @@ Both commands share the same thresholds, which are **0.0001** by default (metres
 
 Sets the radius of all selected control points to **1.0**. Works on Bezier, Poly and NURBS splines, and on every curve object being edited at the same time (multi-object Edit Mode). A message reports how many points were changed.
 
+![](images/set_curve_radius_to_1_ui.png)
+
 To use another value, open the *Adjust Last Operation* panel (`F9`) right after the command and change **Radius**. The menu command always starts from 1.0.
 
 ### <img src="icons/toggle_lock_transform_channels.png" width="64" alt=""> Toggle Lock Channels for Selected
@@ -305,6 +311,8 @@ Eight commands, in two groups, that lock or unlock the transform channels of eve
 
 - **Lock** All Transform / Location / Rotation / Scale Channels for Selected
 - **Unlock** All Transform / Location / Rotation / Scale Channels for Selected
+
+![](images/toggle_lock_transform_channels_ui.png)
 
 The rotation commands also lock or unlock **W**, used by Quaternion and Axis Angle rotations.
 
@@ -320,6 +328,8 @@ A compact sub-panel with two columns of buttons that work on all selected object
 - **Right column — △ Reset Deltas:** **△ Reset All Deltas** on top, and **△ Loc / △ Rot / △ Scale** below it. Merges the Delta Transform back into the regular value and resets the delta.
 
 Hover over any button to see its tooltip. The buttons are disabled when no object is selected.
+
+![](images/transforms_deltas_ui.png)
 
 The rotation buttons work with the **Euler** (XYZ, XZY...) and **Quaternion** rotation modes, in both directions. (Blender's own *Object › Apply › Rotation to Deltas* has no inverse; here *△ Rot* merges the delta back for both modes.) **Axis Angle** has no delta rotation in Blender: those objects keep their rotation unchanged and a warning tells you how many were skipped (their location and scale are still processed by the *All* buttons).
 
@@ -396,4 +406,10 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## Credits
 
-Ideas and specifications by Cristobal Vila (etereaestudios.com). Code written with the help of AI assistants (originally ChatGPT and Claude; maintained with Claude).
+Ideas and specifications by Cristóbal Vila (etereaestudios.com). Code written with the help of AI assistants (originally ChatGPT and Claude; maintained with Claude).
+
+---
+
+ 🟢 [Go to Blender Resources at etereaestudios.com](https://etereaestudios.com/resources/blender-resources/)
+
+---
