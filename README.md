@@ -64,4 +64,4 @@ More Blender resources, courses and tools: [etereaestudios.com/resources/blender
 ## License
 
 Released under the [GNU General Public License v3.0 or later](LICENSE).  
-© 2026 Cristobal Vila ([etereaestudios.com](https://www.etereaestudios.com)).
+© 2026 Cristobal Vila - [etereaestudios.com](https://www.etereaestudios.com)
